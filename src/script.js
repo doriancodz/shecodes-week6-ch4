@@ -44,3 +44,19 @@ function handleSubmit(event) {
   event.preventDefault();
   let city = document.querySelector("#search-city-input").value;
 }
+function displayTemp(response) {
+  let temperature = document.querySelector("#temp");
+  temperature.innerHTML = Math.round(response.data.main.temp);
+}
+function realPosition(position) {
+  let lat = position.coords.latitude;
+  let lon = position.coords.longitude;
+  let apiKey = "5354b60afda2b7800186c06153932396";
+  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+  axios.get(apiUrl).then(displayTemp);
+}
+function showCurrentTemp() {
+  navigator.geolocation.getCurrentPosition(realPosition);
+}
+let current = document.querySelector("#current");
+current.addEventListener("click", showCurrentTemp);
